@@ -21,6 +21,23 @@ This is an ASP.NET MVC web application for managing clients, products, and their
 - Client Management
 - Product Management
 - Order Handling
+  
+ ## 📷 Screenshots
+
+### Client List
+<p align=center>
+  <img width="860" height="944" alt="client list" src="https://github.com/user-attachments/assets/5dbb8fd8-8415-4a8f-b0b7-fceb350a784a" />
+</p>  
+
+  ### Product Page
+ <p align="center">
+   <img width="865" height="611" alt="product page" src="https://github.com/user-attachments/assets/6be5477d-f11a-44c8-bcf0-a7d150539f92" />
+ </p> 
+
+
+### Create Client
+ ![Create Client](create-client.png)
+
 
 ## Functionality Highlights
 - Dynamic product selection (Partial View)
