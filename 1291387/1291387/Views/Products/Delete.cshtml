@@ -1,0 +1,58 @@
+﻿@model _1291387.Models.product
+
+@{
+    ViewBag.Title = "Delete Product";
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+
+            <div class="card shadow-lg border-0 rounded-3">
+
+                <div class="card-header bg-danger text-white text-center p-3">
+                    <h4 class="mb-0"><i class="fas fa-exclamation-triangle me-2"></i>Delete Confirmation</h4>
+                </div>
+
+                <div class="card-body p-4 text-center">
+
+                    <div class="mb-4">
+                        <i class="fas fa-trash-alt fa-4x text-danger mb-3 opacity-50"></i>
+                        <h5 class="card-title fw-bold">Are you sure?</h5>
+                        <p class="card-text text-muted">
+                            Do you really want to delete this product? This process cannot be undone.
+                        </p>
+                    </div>
+
+                    <div class="alert alert-light border d-flex align-items-center justify-content-between p-3 mb-4 rounded-3 text-start">
+                        <div>
+                            <small class="text-uppercase text-muted fw-bold" style="font-size: 0.75rem;">Product Name</small>
+                            <h5 class="mb-0 text-dark fw-bold">@Html.DisplayFor(model => model.productName)</h5>
+                        </div>
+                        <div class="icon-shape bg-white shadow-sm rounded-circle p-2 text-primary">
+                            <i class="fas fa-box"></i>
+                        </div>
+                    </div>
+
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-danger btn-lg shadow-sm">
+                                <i class="fas fa-trash me-2"></i> Yes, Delete It
+                            </button>
+
+                            <a href="@Url.Action("Index")" class="btn btn-light border">
+                                <i class="fas fa-times me-2"></i> Cancel
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,133 @@
+﻿@model IEnumerable<_1291387.Models.client>
+@{
+    ViewBag.Title = "Client Registry";
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+    body {
+        font-family: 'Poppins', sans-serif;
+        background-color: #f4f7f6;
+    }
+
+    .client-card {
+        border: none;
+        border-radius: 15px;
+        transition: all 0.3s ease;
+        overflow: hidden;
+    }
+
+    .client-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+    }
+
+    .custom-header {
+        background: linear-gradient(45deg, #4facfe, #00f2fe);
+        color: white;
+    }
+
+
+    .client-img {
+        object-fit: cover;
+        border: 2px solid rgba(255,255,255,0.5);
+        transition: 0.3s;
+    }
+
+        .client-img:hover {
+            transform: scale(1.1);
+        }
+
+    .badge-location {
+        font-size: 0.75rem;
+        padding: 5px 12px;
+        border-radius: 50px;
+    }
+
+    .table-custom {
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+        .table-custom thead {
+            background-color: #34495e;
+            color: white;
+        }
+</style>
+
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-600 text-dark"><i class="fas fa-users-cog me-2"></i>Client Management</h2>
+        <a href="@Url.Action("Create","Clients")" class="btn btn-primary rounded-pill px-4 shadow-sm">
+            <i class="fa fa-plus-circle me-1"></i> Add New Client
+        </a>
+    </div>
+
+    <div class="row">
+        @foreach (var cl in Model)
+        {
+            <div class="col-12 mb-4">
+                <div class="card client-card shadow-sm">
+                    <div class="card-header custom-header p-3 d-flex justify-content-between align-items-center">
+                        <div class="d-flex align-items-center">
+                            <img src="@cl.picture" class="client-img me-3 shadow-sm" width="50" height="50" style="border-radius:50%;" />
+                            <div>
+                                <h5 class="mb-0 fw-bold">@cl.clientName</h5>
+                                <small class="opacity-75"><i class="far fa-calendar-alt me-1"></i> @cl.birthDate.ToString("dd MMM yyyy")</small>
+                            </div>
+                        </div>
+
+                        <div class="d-flex align-items-center">
+                            <div class="me-4 d-none d-md-block">
+                                <span class="me-3"><i class="fas fa-user-clock me-1"></i> <b>Age:</b> @cl.age</span>
+                                @if (cl.insideDhaka)
+                                {
+                                    <span class="badge bg-white text-danger badge-location"><i class="fas fa-map-marker-alt me-1"></i> Inside Dhaka</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-dark text-white badge-location"><i class="fas fa-globe me-1"></i> Outside Dhaka</span>
+                                }
+                            </div>
+                            <div class="btn-group shadow-sm bg-white rounded-pill p-1">
+                                <a href="@Url.Action("Edit", "Clients", new {id=cl.clientId})" class="btn btn-link text-success p-2"><i class="fa fa-edit"></i></a>
+                                <a href="@Url.Action("Delete", "Clients", new {id=cl.clientId})" class="btn btn-link text-danger p-2"><i class="fa fa-trash"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-body bg-white border-top">
+                        <h6 class="text-uppercase text-muted fw-bold mb-3" style="font-size: 0.8rem; letter-spacing: 1px;">
+                            <i class="fas fa-shopping-cart me-2"></i>Order Specifications
+                        </h6>
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle table-custom">
+                                <thead>
+                                    <tr>
+                                        <th class="ps-3"># Product ID</th>
+                                        <th>Product Name</th>
+                                        <th class="text-center">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in cl.orders)
+                                    {
+                                        <tr>
+                                            <td class="ps-3 fw-bold text-primary">@item.product.productId</td>
+                                            <td>@item.product.productName</td>
+                                            <td class="text-center">
+                                                <span class="badge bg-soft-success text-success border border-success px-3">Verified</span>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

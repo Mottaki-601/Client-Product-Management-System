@@ -1,0 +1,68 @@
+﻿@model _1291387.Models.product
+
+@{
+    ViewBag.Title = "Edit Product";
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+
+            <div class="card shadow-lg border-0 rounded-3">
+
+                <div class="card-header bg-primary bg-gradient text-white p-3">
+                    <h4 class="mb-0 text-center">
+                        <i class="fas fa-edit me-2"></i>Edit Product Details
+                    </h4>
+                </div>
+
+                <div class="card-body p-4">
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger small mb-3" })
+
+                        @Html.HiddenFor(model => model.productId)
+
+                        <div class="mb-4">
+                            @Html.LabelFor(model => model.productName, "Modify Product Name", new { @class = "form-label fw-bold text-muted small text-uppercase" })
+
+                            <div class="input-group">
+                                <span class="input-group-text bg-white border-end-0">
+                                    <i class="fas fa-pen-nib text-primary"></i>
+                                </span>
+                                @Html.EditorFor(model => model.productName, new { htmlAttributes = new { @class = "form-control border-start-0 ps-0", @placeholder = "Update name..." } })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.productName, "", new { @class = "text-danger small fw-bold" })
+                        </div>
+
+                        <div class="row g-2">
+                            <div class="col-8">
+                                <button type="submit" class="btn btn-primary btn-lg w-100 shadow-sm">
+                                    <i class="fas fa-save me-2"></i> Update Changes
+                                </button>
+                            </div>
+                            <div class="col-4">
+                                <a href="@Url.Action("Index")" class="btn btn-outline-secondary btn-lg w-100">
+                                    <i class="fas fa-undo"></i>
+                                </a>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <div class="card-footer bg-light text-center py-2">
+                    <small class="text-muted italic">Editing ID: <strong>#@Model.productId</strong></small>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

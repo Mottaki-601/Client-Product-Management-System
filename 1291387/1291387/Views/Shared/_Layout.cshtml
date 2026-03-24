@@ -1,0 +1,204 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - BD-Furniture</title>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+    <style>
+        :root {
+            --primary-color: #0dcaf0; 
+            --dark-bg: #1a1d20;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f7f6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background: rgba(13, 202, 240, 0.9) !important;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            padding: 0.8rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .nav-link {
+            font-weight: 500;
+            margin: 0 5px;
+            transition: color 0.3s ease;
+        }
+
+            .nav-link:hover {
+                color: #fff !important;
+                transform: translateY(-2px);
+            }
+
+        .body-content {
+            flex: 1;
+            margin-top: 30px;
+            padding-bottom: 50px;
+        }
+
+        footer {
+            background: var(--dark-bg);
+            color: #adb5bd;
+            padding: 20px 0;
+            margin-top: auto;
+        }
+
+        .footer-logo {
+            color: var(--primary-color);
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .input-validation-error {
+            border: 2px solid #dc3545 !important;
+            animation: shake 0.5s;
+        }
+
+        @@keyframes shake {
+            0%, 100% {
+                transform: translateX(0);
+            }
+
+            25% {
+                transform: translateX(-5px);
+            }
+
+            75% {
+                transform: translateX(5px);
+            }
+        }
+    </style>
+    <style>
+        .btnRemove:hover {
+            background-color: #dc3545 !important;
+            color: white !important;
+            transform: rotate(15deg);
+        }
+
+
+        .bg-light-subtle {
+            background-color: #f1f4f9;
+        }
+
+        .form-select:focus {
+            background-color: #ffffff;
+            border: 1px solid #0d6efd !important;
+        }
+
+
+        .animate__fadeIn {
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        @@keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-sm navbar-dark sticky-top">
+        <div class="container">
+            <a href="@Url.Action("Index", "Home")" class="navbar-brand">
+                <i class="fas fa-couch me-2"></i>BD-Furniture
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a href="@Url.Action("Index", "Home")" class="nav-link"><i class="fas fa-home me-1"></i> Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="@Url.Action("Index", "products")" class="nav-link"><i class="fas fa-box me-1"></i> Products</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="@Url.Action("Index", "Clients")" class="nav-link"><i class="fas fa-users me-1"></i> Clients</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container body-content">
+        @RenderBody()
+    </div>
+
+    <footer>
+        <div class="container text-center">
+            <p class="mb-1">&copy; @DateTime.Now.Year - <a href="#" class="footer-logo">BD-Furniture.org</a></p>
+            <small class="opacity-50">Crafting Comfort for Your Sweet Home</small>
+        </div>
+    </footer>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+
+    <script>
+        $(document).ready(function () {
+            $(document).on("click", "#btnPlus", function (e) {
+                e.preventDefault();
+                var container = $("#productContainer");
+                $.get("/Clients/AddNewProduct", function (data) {
+                    var $row = $(data).hide();
+                    container.append($row);
+                    $row.slideDown(300); 
+                });
+            });
+
+            $(document).on("click", ".btnRemove", function (e) {
+                e.preventDefault();
+                $(this).closest(".product-item").fadeOut(300, function () {
+                    $(this).remove();
+                });
+            });
+
+            $(document).on('change', '#birthDate', function () {
+                var selectedDate = new Date($(this).val());
+                var today = new Date();
+                today.setHours(0, 0, 0, 0);
+
+                var errorSpan = $("span[data-valmsg-for='birthDate']");
+
+                if (selectedDate > today) {
+                    errorSpan.html('<i class="fas fa-exclamation-circle"></i> Future dates are not allowed!').fadeIn();
+                    $(this).addClass("input-validation-error");
+                    $(this).val('');
+                } else {
+                    errorSpan.text("").fadeOut();
+                    $(this).removeClass("input-validation-error");
+                }
+            });
+        });
+    </script>
+</body>
+</html>

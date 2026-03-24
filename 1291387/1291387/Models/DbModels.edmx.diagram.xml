@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="98c8c88bd1e94e709b283310ab6fae47" Name="Diagram1">
+        <EntityTypeShape EntityType="r67_MSDModel.client" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="r67_MSDModel.order" Width="1.5" PointX="3" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="r67_MSDModel.product" Width="1.5" PointX="5.125" PointY="2.125" IsExpanded="true" />
+        <AssociationConnector Association="r67_MSDModel.FK__orders__clientId__3B75D760" ManuallyRouted="false" />
+        <AssociationConnector Association="r67_MSDModel.FK__orders__productI__3C69FB99" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

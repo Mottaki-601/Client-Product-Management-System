@@ -1,0 +1,182 @@
+﻿@model _1291387.Models.ViewModels.ClientVM
+@{
+    ViewBag.Title = "Update Client";
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+
+<div class="container mt-4">
+    <div class="card shadow-lg border-0 rounded-4">
+        <div class="card-header bg-dark text-white p-4 d-flex justify-content-between align-items-center rounded-top-4">
+            <div>
+                <h2 class="mb-0 fw-bold"><i class="fas fa-user-edit me-2 text-warning"></i>Update Client Info</h2>
+                <small class="text-light opacity-75">Modify client profile and manage product assignments</small>
+            </div>
+            <a href="@Url.Action("Index")" class="btn btn-outline-light btn-sm rounded-pill px-3">
+                <i class="fas fa-arrow-left me-1"></i> Back to Registry
+            </a>
+        </div>
+
+        @using (Ajax.BeginForm(new AjaxOptions
+        {
+            HttpMethod = "POST",
+            InsertionMode = InsertionMode.Replace,
+            UpdateTargetId = "msg",
+            OnComplete = "clearAll"
+        }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(x => x.clientId)
+            @Html.HiddenFor(x => x.picture)
+
+            <div class="card-body p-4">
+                <div class="row g-4">
+
+                    <div class="col-lg-5 border-end pr-lg-4">
+                        <h5 class="text-primary mb-4 border-bottom pb-2">Primary Information</h5>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold small text-uppercase">Full Name</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light"><i class="fas fa-user text-muted"></i></span>
+                                @Html.TextBoxFor(x => x.clientName, new { @class = "form-control shadow-sm", placeholder = "Enter Client name" })
+                            </div>
+                            @Html.ValidationMessageFor(x => x.clientName, "", new { @class = "text-danger small fw-bold" })
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-7 mb-3">
+                                <label class="form-label fw-bold small text-uppercase">Birth Date</label>
+                                @Html.EditorFor(x => x.birthDate, "{0:yyyy-MM-dd}", new { htmlAttributes = new { @class = "form-control shadow-sm", type = "date" } })
+                                @Html.ValidationMessageFor(x => x.birthDate, "", new { @class = "text-danger small" })
+                            </div>
+                            <div class="col-md-5 mb-3">
+                                <label class="form-label fw-bold small text-uppercase">Age</label>
+                                @Html.TextBoxFor(x => x.age, new { @class = "form-control shadow-sm", placeholder = "00", @readonly = "readonly" })
+                                @Html.ValidationMessageFor(x => x.age, "", new { @class = "text-danger small" })
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold small text-uppercase">Profile Picture</label>
+                            <div class="d-flex align-items-center gap-3 p-2 bg-light rounded-3 border">
+                                <img src="@Model.picture" width="60" height="60" class="rounded-circle shadow-sm border border-2 border-white" id="prevImg" />
+                                <div class="flex-grow-1">
+                                    @Html.TextBoxFor(x => x.pictureFile, new { @class = "form-control form-control-sm border-0 bg-transparent", type = "file" })
+                                    <small class="text-muted">Max size: 2MB (.jpg, .png)</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-check form-switch mt-4 p-3 bg-blue-light rounded-3">
+                            @Html.CheckBoxFor(x => x.insideDhaka, new { @class = "form-check-input" })
+                            <label class="form-check-label fw-bold text-dark ms-2" for="insideDhaka">Residing inside Dhaka?</label>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-7">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="text-primary mb-0 border-bottom pb-2 flex-grow-1">Assigned Products</h5>
+                            <button type="button" id="btnPlus" class="btn btn-success btn-sm rounded-pill px-3 shadow-sm">
+                                <i class="fas fa-plus me-1"></i> Add Item
+                            </button>
+                        </div>
+
+                        <div id="productContainer" class="p-3 bg-light rounded-4 border shadow-inner" style="min-height: 300px; max-height: 450px; overflow-y: auto;">
+                            @foreach (var item in Model.ProductList)
+                            {
+                                <div class="product-item-row mb-2">
+                                    @Html.Action("AddNewProduct", "Clients", new { id = item })
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-footer bg-light p-3 border-top d-flex justify-content-between align-items-center rounded-bottom-4">
+                <div id="msg" class="fw-bold"></div>
+                <button type="submit" class="btn btn-primary btn-lg px-5 shadow rounded-pill">
+                    <i class="fas fa-save me-2"></i> Update Records
+                </button>
+            </div>
+        }
+    </div>
+</div>
+
+<style>
+    .bg-blue-light {
+        background-color: #eef6ff;
+    }
+
+    .shadow-inner {
+        box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    .product-item-row {
+        transition: all 0.2s;
+    }
+
+    #productContainer::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    #productContainer::-webkit-scrollbar-thumb {
+        background: #ccc;
+        border-radius: 10px;
+    }
+</style>
+
+@section scripts{
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $("#form0").attr("enctype", "multipart/form-data");
+
+            $("#pictureFile").change(function () {
+                if (this.files && this.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        $('#prevImg').attr('src', e.target.result);
+                    }
+                    reader.readAsDataURL(this.files[0]);
+                }
+            });
+        });
+
+        function clearAll() {
+            if ($("#msg").text().includes("Success")) {
+                setTimeout(() => { $("#msg").fadeOut(); }, 3000);
+            }
+        }
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $("#form0").attr("enctype", "multipart/form-data");
+
+            $("#birthDate").on("change", function () {
+                var dob = new Date($(this).val());
+                if (dob != "Invalid Date") {
+                    var today = new Date();
+                    var age = today.getFullYear() - dob.getFullYear();
+                    var m = today.getMonth() - dob.getMonth();
+
+                    if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) {
+                        age--;
+                        alert("Birth date cannot be in the future! Please select a valid date.");
+                    }
+
+                    $("#age").val(age >= 0 ? age : 0);
+                }
+            });
+        });
+
+        function clearAll() {
+            if ($("#msg").text().includes("Success") || $("#msg").hasClass("alert-success")) {
+                $("#form0").trigger("reset");
+            }
+        }
+    </script>
+}

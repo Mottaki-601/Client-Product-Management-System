@@ -1,0 +1,92 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<div class="container py-5">
+    <div class="row align-items-center min-vh-75">
+
+        <div class="col-lg-6 order-2 order-lg-1 animate__animated animate__fadeInLeft">
+            <span class="badge bg-warning text-dark px-3 py-2 rounded-pill mb-3 shadow-sm">
+                <i class="fas fa-star me-1"></i> Welcome to Interior Hub
+            </span>
+            <h1 class="display-3 fw-bold text-dark mb-3" style="line-height: 1.2;">
+                Make Your Home <br>
+                <span class="text-primary">Sweet & Unique</span>
+            </h1>
+            <p class="lead text-muted mb-4" style="font-size: 1.1rem;">
+                Discover the best furniture collections and manage your client requirements efficiently. Comfort meets elegance right here.
+            </p>
+
+            <div class="d-flex gap-3">
+                <a href="@Url.Action("Create", "Clients")" class="btn btn-primary btn-lg rounded-pill px-4 shadow-lg btn-hover">
+                    <i class="fas fa-user-plus me-2"></i>Register Client
+                </a>
+                <a href="@Url.Action("Index", "Clients")" class="btn btn-outline-dark btn-lg rounded-pill px-4 shadow-sm">
+                    <i class="fas fa-list me-2"></i>View List
+                </a>
+            </div>
+
+            <div class="row mt-5 pt-3 border-top">
+                <div class="col-4">
+                    <h4 class="fw-bold mb-0">100+</h4>
+                    <small class="text-muted">Happy Clients</small>
+                </div>
+                <div class="col-4">
+                    <h4 class="fw-bold mb-0">50+</h4>
+                    <small class="text-muted">Products</small>
+                </div>
+                <div class="col-4">
+                    <h4 class="fw-bold mb-0">24/7</h4>
+                    <small class="text-muted">Support</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6 order-1 order-lg-2 mb-5 mb-lg-0 text-center animate__animated animate__fadeInRight">
+            <div class="position-relative">
+                <img src="~/Images/sofa.png" class="img-fluid drop-shadow" alt="Luxury Sofa" style="transform: scale(1.1);">
+
+                <div class="card position-absolute bottom-0 start-0 border-0 shadow-lg p-3 rounded-4 bg-white d-none d-md-block" style="width: 200px;">
+                    <div class="d-flex align-items-center">
+                        <div class="bg-success bg-opacity-10 p-2 rounded-circle me-3">
+                            <i class="fas fa-couch text-success fa-lg"></i>
+                        </div>
+                        <div>
+                            <h6 class="mb-0 fw-bold">Best Quality</h6>
+                            <small class="text-muted">Premium Wood</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<style>
+    body {
+        font-family: 'Poppins', sans-serif;
+        background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%); 
+        overflow-x: hidden;
+    }
+
+    .drop-shadow {
+        filter: drop-shadow(20px 20px 30px rgba(0,0,0,0.15));
+        transition: transform 0.3s ease;
+    }
+
+        .drop-shadow:hover {
+            transform: scale(1.12); 
+        }
+
+    .btn-hover {
+        transition: all 0.3s ease;
+    }
+
+        .btn-hover:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(13, 110, 253, 0.3) !important;
+        }
+</style>

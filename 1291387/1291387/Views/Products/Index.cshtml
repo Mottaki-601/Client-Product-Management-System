@@ -1,0 +1,65 @@
+﻿@model IEnumerable<_1291387.Models.product>
+
+@{
+    ViewBag.Title = "Product List";
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+
+<div class="container mt-4">
+    <div class="card shadow-lg border-0 rounded-3">
+
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center p-3">
+            <h4 class="mb-0"><i class="fas fa-boxes me-2"></i>Product Management</h4>
+            <a href="@Url.Action("Create")" class="btn btn-light text-primary fw-bold shadow-sm">
+                <i class="fas fa-plus-circle me-1"></i> Add New Product
+            </a>
+        </div>
+
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover table-striped align-middle mb-0">
+                    <thead class="bg-light text-secondary">
+                        <tr>
+                            <th class="ps-4 text-uppercase text-xs font-weight-bolder opacity-7" style="width: 70%;">
+                                @Html.DisplayNameFor(model => model.productName)
+                            </th>
+                            <th class="text-center text-uppercase text-xs font-weight-bolder opacity-7">
+                                Actions
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td class="ps-4">
+                                    <div class="d-flex flex-column justify-content-center">
+                                        <h6 class="mb-0 text-sm fw-bold text-dark">@Html.DisplayFor(modelItem => item.productName)</h6>
+                                    </div>
+                                </td>
+                                <td class="text-center">
+                                    <div class="btn-group" role="group">
+                                        <a href="@Url.Action("Edit", new { id = item.productId })" class="btn btn-sm btn-outline-warning" title="Edit">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <a href="@Url.Action("Details", new { id = item.productId })" class="btn btn-sm btn-outline-info" title="Details">
+                                            <i class="fas fa-info-circle"></i>
+                                        </a>
+                                        <a href="@Url.Action("Delete", new { id = item.productId })" class="btn btn-sm btn-outline-danger" title="Delete">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card-footer bg-white text-muted text-end p-3">
+            <small>Total Products: <strong>@Model.Count()</strong></small>
+        </div>
+    </div>
+</div>
