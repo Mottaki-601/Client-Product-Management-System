@@ -22,7 +22,7 @@ This is an ASP.NET MVC web application for managing clients, products, and their
 - Product Management
 - Order Handling
   
- ## 📷 Screenshots
+ ## Screenshots
 
 ### Client List
 <p align=center>
